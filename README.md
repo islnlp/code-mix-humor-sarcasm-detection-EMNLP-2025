@@ -6,7 +6,7 @@ This repo contains the code for above.
 
 Python 3.6 or higher <br>
 Pytorch >= 1.3.0 <br>
-Pytorch_transformers (also known as transformers) <br>
+transformers  <br>
 Pandas, Numpy <br>
 
 ### Dataset
