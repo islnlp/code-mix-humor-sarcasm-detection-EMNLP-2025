@@ -26,4 +26,4 @@ For Multi-tasking_two_tasks.py
 
 ### Training
 
-```python name_of_the_script```
+```python name_of_the_script.py```
