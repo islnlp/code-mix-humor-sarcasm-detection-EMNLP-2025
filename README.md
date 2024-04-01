@@ -4,7 +4,10 @@ This repo contains the code for above.
 
 ### Requirements
 
-Install requirements.txt file using pip install -r requirements.txt
+Python 3.6 or higher <br>
+Pytorch >= 1.3.0 <br>
+Pytorch_transformers (also known as transformers) <br>
+Pandas, Numpy <br>
 
 ### Dataset
 
