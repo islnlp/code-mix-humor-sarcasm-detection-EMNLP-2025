@@ -12,7 +12,7 @@ We have used publicaly  available datasets. For humor_hindi and sarcasm_hindi we
 
 ### Arguments:
 
-For Multi-tasking_two_tasks.py
+For Multi-tasking_results:
 
 ```
 --epochs:  number of total epochs to run, default=50
