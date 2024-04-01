@@ -33,3 +33,5 @@ For Multi-tasking_results:
 ```
 python3 Native_samples_results/{model}.py
 ```
+Select the model from the following:
+{0mBERT_Codemix.py, 0XLMR_Codemix.py, 0NB_Codemix.py, 0RF_Codemix.py, 0SVM_Codemix.py, 0mBERT_Combined_(Cod+eng), 0XLMR_Combined_(Cod+eng), 0NB_Combined_(Cod+eng), 0RF_Combined_(Cod+eng), 0SVM_Combined_(Cod+eng), 0mBERT_Combined_(Cod+hind), 0XLMR_Combined_(Cod+hind), 0NB_Combined_(Cod+hind), 0RF_Combined_(Cod+hind), 0SVM_Combined_(Cod+hind), 0mBERT_Combined_(Cod+hind+eng), 0XLMR_Combined_(Cod+hind+eng), 0NB_Combined_(Cod+hind+eng), 0RF_Combined_(Cod+hind+eng),0SVM_Combined_(Cod+hind+eng)}
