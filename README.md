@@ -28,5 +28,8 @@ For Multi-tasking_results:
 ```
 
 ### Training
+ For Native_samples_results:
 
-```python name_of_the_script.py```
+```
+python3 Native_samples_results/{model}.py
+```
