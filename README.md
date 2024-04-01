@@ -44,4 +44,4 @@ python3 Multi-tasking_results/mtl_two_tasks.py
 
 python3 Multi-tasking_results/mtl_three_tasks.py
 ```
-We are using two models (mBERT & XLMR) for multi-task learning. Both model path has been given in the code, we can use accordingly.
+We are using two models (mBERT & XLMR) for multi-task learning. Both model path has been given in the code, we can use them accordingly.
