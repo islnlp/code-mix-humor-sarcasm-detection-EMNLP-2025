@@ -11,7 +11,7 @@ Pandas, Numpy <br>
 
 ### Dataset
 
-We have used publicaly  available datasets. For humor_hindi and sarcasm_hindi we have translated corresponding english data using Google Translate. To run the code for humor and sarcasm, we can change the data path accordingly.
+We have used publicly  available datasets. For humor_hindi and sarcasm_hindi we have translated corresponding english data using Google Translate. To run the code for humor and sarcasm, one can change the data path accordingly.
 
 ### Arguments:
 
