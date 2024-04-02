@@ -15,7 +15,7 @@ We have used publicaly  available datasets. For humor_hindi and sarcasm_hindi we
 
 ### Arguments:
 
-For Multi-tasking_results:
+For Multi-Task model results:
 
 ```
 --epochs:  number of total epochs to run, default=50
@@ -37,7 +37,7 @@ Select the model from the following:
 
 {0mBERT_Codemix.py, 0XLMR_Codemix.py, 0NB_Codemix.py, 0RF_Codemix.py, 0SVM_Codemix.py, 0mBERT_Combined_(Cod+eng), 0XLMR_Combined_(Cod+eng), 0NB_Combined_(Cod+eng), 0RF_Combined_(Cod+eng), 0SVM_Combined_(Cod+eng), 0mBERT_Combined_(Cod+hind), 0XLMR_Combined_(Cod+hind), 0NB_Combined_(Cod+hind), 0RF_Combined_(Cod+hind), 0SVM_Combined_(Cod+hind), 0mBERT_Combined_(Cod+hind+eng), 0XLMR_Combined_(Cod+hind+eng), 0NB_Combined_(Cod+hind+eng), 0RF_Combined_(Cod+hind+eng),0SVM_Combined_(Cod+hind+eng)}
 
-For Multi-tasking_results:
+For Multi-Task model results:
 
 ```
 python3 Multi-tasking_results/mtl_two_tasks.py
