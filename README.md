@@ -1,6 +1,7 @@
 # Code-Mixed Humor & Sarcasm Detection
 
-This repo contains the code for above.
+This repo contains the code for the paper: "Improving code-mixed humor and sarcasm detection through multi-tasking
+and native sample mixing". We strongly recommend that you run our codes on the same settings with Docker or Anaconda to ensure reproducibility. 
 
 ### Requirements
 
@@ -9,9 +10,21 @@ Pytorch >= 1.3.0 <br>
 transformers  <br>
 Pandas, Numpy <br>
 
+### Setup:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/code-mixed-humor-sarcasm-detection.git
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Download and prepare the datasets. (Instructions can be found in the data/README.md file)
+4. Train and evaluate models using the provided scripts in this directory.
+
 ### Dataset
 
-We have used publicly  available datasets. For humor_hindi and sarcasm_hindi we have translated corresponding english data using Google Translate. To run the code for humor and sarcasm, one can change the data path accordingly.
+We have used publicly  available datasets. For humor(Hindi) and sarcasm(Hindi), we have translated corresponding English dataset using Google Translate. To run the code for humor and sarcasm, one can change the data path accordingly.
 
 ### Arguments:
 
