@@ -1,6 +1,6 @@
 ### Dataset Sources
 
-We have used publicly available datasets. The link of the datasets are:
+The links of the considered datasets are:
 
 Hate_Codemix : https://github.com/deepanshu1995/HateSpeech-Hindi-English-Code-Mixed-Social-Media-Text
 
