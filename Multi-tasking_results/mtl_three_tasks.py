@@ -171,7 +171,14 @@ class SharedCrossTaskModel(nn.Module):
         # Load a pre-trained BERT model
         self.bert = BertModel.from_pretrained('bert-base-multilingual-cased',output_hidden_states=True)
         #self.bert = XLMRobertaModel.from_pretrained('xlm-roberta-base',output_hidden_states=True)
-        
+
+        # Freeze all layers except the top 2
+        for param in self.xlm_roberta.parameters():
+            param.requires_grad = False
+
+        # Unfreeze the parameters of the top 2 layers
+        for param in self.xlm_roberta.encoder.layer[-2:].parameters():
+            param.requires_grad = True
 
         # Task-specific layers for Task 1
         self.task1_specific_layers = nn.ModuleList([deepcopy(self.bert.encoder.layer[i]) for i in range(-4, 0, 1)])
