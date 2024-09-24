@@ -1,6 +1,6 @@
 
 <h1 align="center">Code-Mixed Humor & Sarcasm Detection</h1>
-<p align="center">GPU optimized techniques for training transformer models at-scale</p>
+<!-- <p align="center">GPU optimized techniques for training transformer models at-scale</p> -->
 
 ---
 
