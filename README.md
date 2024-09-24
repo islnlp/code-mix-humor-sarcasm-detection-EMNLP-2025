@@ -49,7 +49,6 @@ python3 Native_samples_results/{model}.py
 ```
 
 Select the model from the following:
-{0mBERT_Codemix.py, <br> 0XLMR_Codemix.py, <br> 0NB_Codemix.py, <br> 0RF_Codemix.py, <br> 0SVM_Codemix.py, <br> 0mBERT_Combined_(Cod+eng), <br> 0XLMR_Combined_(Cod+eng), <br> 0NB_Combined_(Cod+eng), <br> 0RF_Combined_(Cod+eng), <br> 0SVM_Combined_(Cod+eng), <br> 0mBERT_Combined_(Cod+hind), <br> 0XLMR_Combined_(Cod+hind), <br> 0NB_Combined_(Cod+hind), <br> 0RF_Combined_(Cod+hind), <br> 0SVM_Combined_(Cod+hind), <br> 0mBERT_Combined_(Cod+hind+eng), <br> 0XLMR_Combined_(Cod+hind+eng), <br> 0NB_Combined_(Cod+hind+eng), <br> 0RF_Combined_(Cod+hind+eng), <br> 0SVM_Combined_(Cod+hind+eng)}
 
 ### Model Selection
 
@@ -65,12 +64,12 @@ Select the model from the following:
 |                             | 0SVM_Combined_(Cod+eng)            |
 |                             | 0mBERT_Combined_(Cod+eng)            |
 |                             | 0XLMR_Combined_(Cod+eng)           |
-| **Combined Models (Cod+hind)** | 0NB_Combined_(Cod+hind)       |
+| **Combined models (Cod+hind)** | 0NB_Combined_(Cod+hind)       |
 |                             | 0RF_Combined_(Cod+hind)         |
 |                             | 0SVM_Combined_(Cod+hind)           |
 |                             | 0mBERT_Combined_(Cod+hind)           |
 |                             | 0XLMR_Combined_(Cod+hind)          |
-| **Combined Models (Cod+hind+eng)** | 0NB_Combined_(Cod+hind+eng) |
+| **Combined models (Cod+hind+eng)** | 0NB_Combined_(Cod+hind+eng) |
 |                             | 0RF_Combined_(Cod+hind+eng)     |
 |                             | 0SVM_Combined_(Cod+hind+eng)       |
 |                             | 0mBERT_Combined_(Cod+hind+eng)       |
