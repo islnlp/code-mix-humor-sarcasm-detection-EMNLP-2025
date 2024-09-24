@@ -43,7 +43,7 @@ For Multi-Task model results:
 ### Training
  For results on native samples mixing:
 
-```
+```bash
 python3 Native_samples_results/{model}.py
 
 Select the model from the following:
