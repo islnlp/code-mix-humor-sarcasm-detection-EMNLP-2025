@@ -49,16 +49,17 @@ python3 Native_samples_results/{model}.py
 ```
 
 Select the model from the following:
+{0mBERT_Codemix.py, <br> 0XLMR_Codemix.py, <br> 0NB_Codemix.py, <br> 0RF_Codemix.py, <br> 0SVM_Codemix.py, <br> 0mBERT_Combined_(Cod+eng), <br> 0XLMR_Combined_(Cod+eng), <br> 0NB_Combined_(Cod+eng), <br> 0RF_Combined_(Cod+eng), <br> 0SVM_Combined_(Cod+eng), <br> 0mBERT_Combined_(Cod+hind), <br> 0XLMR_Combined_(Cod+hind), <br> 0NB_Combined_(Cod+hind), <br> 0RF_Combined_(Cod+hind), <br> 0SVM_Combined_(Cod+hind), <br> 0mBERT_Combined_(Cod+hind+eng), <br> 0XLMR_Combined_(Cod+hind+eng), <br> 0NB_Combined_(Cod+hind+eng), <br> 0RF_Combined_(Cod+hind+eng), <br> 0SVM_Combined_(Cod+hind+eng)}
 
 ### Model Selection
 
 | Category                    | Model Names                       |
 |-----------------------------|-----------------------------------|
-| **Code-Mixed Only Models**  | 0mBERT_Codemix.py                 |
-|                             | 0xLMR_Codemix.py                  |
-|                             | 0NB_Codemix.py                    |
-|                             | 0RF_Codemix.py                    |
+| **Code-Mixed Only Models**  | 0NB_Codemix.py	                  |
+|                             | 0RF_Codemix.py	                  |
 |                             | 0SVM_Codemix.py                   |
+|                             | 0mBERT_Codemix.py                 |
+|                             | 0XLMR_Codemix.py                   |
 | **Combined Models (Cod+eng)** | 0mBERT_Combined_(Cod+eng)         |
 |                             | 0xLMR_Combined_(Cod+eng)          |
 |                             | 0NB_Combined_(Cod+eng)            |
