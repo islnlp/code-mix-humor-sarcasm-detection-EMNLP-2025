@@ -16,7 +16,7 @@
 ---
 
 This repository contains the code for the paper: <b>"Improving code-mixed humor and sarcasm detection through multi-tasking
-and native sample mixing"<\b>. We strongly recommend that you run our codes on the same settings to ensure reproducibility. 
+and native sample mixing"</b>. We strongly recommend that you run our codes on the same settings to ensure reproducibility. 
 
 ### Requirements
 
