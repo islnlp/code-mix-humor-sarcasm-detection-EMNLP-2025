@@ -26,7 +26,7 @@ import os
 
 # saving to log files
 
-logging.basicConfig(filename=f'./logs/mBERT_{time.asctime().replace(" ","_")}.log', filemode='w', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename=f'/data1/debajyoti/code-mix-humor-sarcasm-detection/logs/mBERT_{time.asctime().replace(" ","_")}.log', filemode='w', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Create a logger object
 logger = logging.getLogger()
@@ -42,10 +42,14 @@ logger.addHandler(console_handler)
 #Arguments
 import argparse
 parser = argparse.ArgumentParser()
+parser.add_argument('--task', type=str, default='humor', help='target task as humor or sarcasm')
+# parser.add_argument('--MTL', type=str, default='humor,sarcasm', help='multi-task as humor, sarcasm or sarcasm, hate or humor, hate')
 parser.add_argument('--lr', type=float, default=2e-5, help='learning rate')
 parser.add_argument('--epochs', type=int, default=50, help='no. of epochs' )
 parser.add_argument('--bsz', type=int, default=32, help='batch size' )
-parser.add_argument('--seqlen', type=int, default=128, help='sequence length' )
+parser.add_argument('--seqlen', type=int, default=64, help='sequence length' )
+parser.add_argument('--model', type=str, default='mbert', help='mbert or xlmr' )
+parser.add_argument('--unfreeze', type=int, default=2, help='number of layers to unfreeze' )
 args = parser.parse_args()
 
 
@@ -58,54 +62,209 @@ np.random.seed(random_seed)
 random.seed(random_seed)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-# Loading dataset
 
-dt=pd.read_csv('/data1/aakash/Codemix/Aakash_02/Datasets/1HateSpeech_Codemix.csv') #codemix
+
+# choose the task
+task = args.task
+# MTL = args.MTL
+
+if task == 'humor':
+    cm_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1Humour_Codemix.csv' # target task code-mixed dataset path
+    eng_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1Humour_English(NEW).csv' # target task eng dataset path
+    a1_cm_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1Sarcasm_Codemix.csv' # auxilliary task code-mixed dataset path
+    a1_eng_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1Sarcasm_English.csv' # auxilliary task eng dataset path
+    a2_cm_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1HateSpeech_Codemix.csv' # auxilliary task code-mixed dataset path
+    a2_eng_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1Hatespeech_English(new).csv' # auxilliary task eng dataset path
+    a2_hin_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1HateSpeech_Hindi.csv'
+elif task == 'sarcasm':
+    cm_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1Sarcasm_Codemix.csv' # target task code-mixed dataset path
+    eng_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1Sarcasm_English.csv' # target task eng dataset path
+    a1_cm_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1Humour_Codemix.csv' # auxilliary task code-mixed dataset path
+    a1_eng_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1Humour_English(NEW).csv' # auxilliary task eng dataset path
+    a2_cm_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1HateSpeech_Codemix.csv' # auxilliary task code-mixed dataset path
+    a2_eng_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1Hatespeech_English(new).csv' # auxilliary task eng dataset path
+    a2_hin_path = '/data1/debajyoti/code-mix-humor-sarcasm-detection/Dataset/1HateSpeech_Hindi.csv'
+
+else:
+    print("Choose from the available tasks for MTL !!")
+    exit(0)
+
+# Loading dataset
+# auxiliary task 2
+dt=pd.read_csv(a2_cm_path) #codemix
 dt=dt.dropna()
 
 # train_df, remaining_df = train_test_split(dt, test_size=0.3, random_state=random_seed, stratify=dt['Tag'])
 # test_df, val_df = train_test_split(remaining_df, test_size=0.5, random_state=random_seed, stratify=remaining_df['Tag'])
-dy = pd.read_csv('/data1/aakash/Codemix/Aakash_02/Datasets/1Hatespeech_English(new).csv')
+# load native language datasets
+# load native english
+dy = pd.read_csv(a2_eng_path)
+# Extract same number of samples as of code-mixed train set with equal label ratio
+# Step 1: Separate the dataframe into two dataframes based on the labels
+df_0 = dy[dy['Tag'] == 0]
+df_1 = dy[dy['Tag'] == 1]
+
+# Determine the number of samples to take from each tag
+if min(len(df_0), len(df_1)) > len(dt) // 2:
+    num_samples_per_tag = len(dt) // 2
+else:
+    num_samples_per_tag = min(len(df_0), len(df_1))
+
+# Step 3: Sample 'min_count' rows from each dataframe
+df_0_sampled = df_0.sample(n=num_samples_per_tag, random_state=random_seed)
+df_1_sampled = df_1.sample(n=num_samples_per_tag, random_state=random_seed)
+
+# Step 4: Concatenate the sampled dataframes
+balanced_df = pd.concat([df_0_sampled, df_1_sampled])
+
+# Step 5: Shuffle the concatenated dataframe to mix rows from both classes
+dy = balanced_df.sample(frac=1, random_state=random_seed).reset_index(drop=True)
+
+# load native hindi
+dx = pd.read_csv(a2_hin_path)
+# Extract same number of samples as of code-mixed train set with equal label ratio
+# Step 1: Separate the dataframe into two dataframes based on the labels
+df_0 = dx[dx['Tag'] == 0]
+df_1 = dx[dx['Tag'] == 1]
+
+# Determine the number of samples to take from each tag
+if min(len(df_0), len(df_1)) > len(dt) // 2:
+    num_samples_per_tag = len(dt) // 2
+else:
+    num_samples_per_tag = min(len(df_0), len(df_1))
+
+# Step 3: Sample 'min_count' rows from each dataframe
+df_0_sampled = df_0.sample(n=num_samples_per_tag, random_state=random_seed)
+df_1_sampled = df_1.sample(n=num_samples_per_tag, random_state=random_seed)
+
+# Step 4: Concatenate the sampled dataframes
+balanced_df = pd.concat([df_0_sampled, df_1_sampled])
+
+# Step 5: Shuffle the concatenated dataframe to mix rows from both classes
+dx = balanced_df.sample(frac=1, random_state=random_seed).reset_index(drop=True)
 
 
-
-dx = pd.read_csv('/data1/aakash/Codemix/Aakash_02/Datasets/1HateSpeech_Hindi.csv')
 hate_com = pd.concat([dt,dy,dx])
 hate_com = hate_com.reset_index(drop=True)
 hate_com
+# weightage for weighted train task1 loss
+# Step 1: Calculate the frequency of each label
+label_counts = hate_com['Tag'].value_counts()
+total_count = len(hate_com)
+
+# Step 2: Calculate the weight for each label for weighted loss
+weights = {label: (total_count-count)/total_count for label, count in label_counts.items()}
+
+# Convert weights dictionary to a list ordered by label (assuming labels are 0 and 1)
+weights_list = [weights[label] for label in sorted(weights.keys())]
+
+# Convert list to a PyTorch tensor
+train_task3_weightage = torch.tensor(weights_list, dtype=torch.float32).to(device)
+
 z = hate_com['Tag'].replace({1:999, 0:999})
 z
+
 # Loading dataset
-
-dn=pd.read_csv('/data1/aakash/Codemix/Aakash_02/Datasets/1Humour_Codemix.csv') #codemix
+# auxiliary task 1
+dn=pd.read_csv(a1_cm_path) #codemix
 dn=dn.dropna()
+# load native language datasets
+dm = pd.read_csv(a1_eng_path)
+# dm = dm[:3000]
+# Extract same number of samples as of code-mixed train set with equal label ratio
+# Step 1: Separate the dataframe into two dataframes based on the labels
+df_0 = dm[dm['Tag'] == 0]
+df_1 = dm[dm['Tag'] == 1]
+
+# Determine the number of samples to take from each tag
+if min(len(df_0), len(df_1)) > len(dn) // 2:
+    num_samples_per_tag = len(dn) // 2
+else:
+    num_samples_per_tag = min(len(df_0), len(df_1))
+
+# Step 3: Sample 'min_count' rows from each dataframe
+df_0_sampled = df_0.sample(n=num_samples_per_tag, random_state=random_seed)
+df_1_sampled = df_1.sample(n=num_samples_per_tag, random_state=random_seed)
+
+# Step 4: Concatenate the sampled dataframes
+balanced_df = pd.concat([df_0_sampled, df_1_sampled])
+
+# Step 5: Shuffle the concatenated dataframe to mix rows from both classes
+dm = balanced_df.sample(frac=1, random_state=random_seed).reset_index(drop=True)
 
 
-dm = pd.read_csv('/data1/aakash/Codemix/Aakash_02/Datasets/1Humour_English(NEW).csv')
-dm = dm[:3000]
 sar_com = pd.concat([dn,dm])
 sar_com = sar_com.reset_index(drop=True)
 sar_com
+# weightage for weighted train task1 loss
+# Step 1: Calculate the frequency of each label
+label_counts = sar_com['Tag'].value_counts()
+total_count = len(sar_com)
+
+# Step 2: Calculate the weight for each label for weighted loss
+weights = {label: (total_count-count)/total_count for label, count in label_counts.items()}
+
+# Convert weights dictionary to a list ordered by label (assuming labels are 0 and 1)
+weights_list = [weights[label] for label in sorted(weights.keys())]
+
+# Convert list to a PyTorch tensor
+train_task2_weightage = torch.tensor(weights_list, dtype=torch.float32).to(device)
+
 k=sar_com['Tag']
 k
 sar_com['Tag']= sar_com['Tag'].replace({1:999, 0:999})
 sar_com
 n = sar_com['Tag'].replace({1:999, 0:999})
 n
-df = pd.read_csv('/data1/aakash/Codemix/Aakash_02/Datasets/1Sarcasm_Codemix.csv')
 
-train_df, remaining_df = train_test_split(df, test_size=0.3, random_state=random_seed, stratify=df['Tag'])
+# load code-mixed dataset for target task
+df = pd.read_csv(cm_path)
+
+train_df, remaining_df = train_test_split(df, test_size=0.2, random_state=random_seed, stratify=df['Tag'])
 test_df, val_df = train_test_split(remaining_df, test_size=0.5, random_state=random_seed, stratify=remaining_df['Tag'])
 
+# load native language dataset
+dz = pd.read_csv(eng_path)
+# dz = dz[:3000]
+# Extract same number of samples as of code-mixed train set with equal label ratio
+# Step 1: Separate the dataframe into two dataframes based on the labels
+df_0 = dz[dz['Tag'] == 0]
+df_1 = dz[dz['Tag'] == 1]
 
-dz = pd.read_csv('/data1/aakash/Codemix/Aakash_02/Datasets/1Sarcasm_English.csv')
-dz = dz[:3000]
+# Determine the number of samples to take from each tag
+if min(len(df_0), len(df_1)) > len(train_df) // 2:
+    num_samples_per_tag = len(train_df) // 2
+else:
+    num_samples_per_tag = min(len(df_0), len(df_1))
+
+# Step 3: Sample 'min_count' rows from each dataframe
+df_0_sampled = df_0.sample(n=num_samples_per_tag, random_state=random_seed)
+df_1_sampled = df_1.sample(n=num_samples_per_tag, random_state=random_seed)
+
+# Step 4: Concatenate the sampled dataframes
+balanced_df = pd.concat([df_0_sampled, df_1_sampled])
+
+# Step 5: Shuffle the concatenated dataframe to mix rows from both classes
+dz = balanced_df.sample(frac=1, random_state=random_seed).reset_index(drop=True)
 
 # Train Data
-
 hum_com = pd.concat([train_df,dz])
 hum_com = hum_com.reset_index(drop=True)
 hum_com
+# weightage for weighted train task1 loss
+# Step 1: Calculate the frequency of each label
+label_counts = hum_com['Tag'].value_counts()
+total_count = len(hum_com)
+
+# Step 2: Calculate the weight for each label for weighted loss
+weights = {label: (total_count-count)/total_count for label, count in label_counts.items()}
+
+# Convert weights dictionary to a list ordered by label (assuming labels are 0 and 1)
+weights_list = [weights[label] for label in sorted(weights.keys())]
+
+# Convert list to a PyTorch tensor
+train_task1_weightage = torch.tensor(weights_list, dtype=torch.float32).to(device)
+
 y=hum_com['Tag']
 y
 s=pd.concat([z,n,y])
@@ -169,15 +328,23 @@ class SharedCrossTaskModel(nn.Module):
         super(SharedCrossTaskModel, self).__init__()
 
         # Load a pre-trained BERT model
-        self.bert = BertModel.from_pretrained('bert-base-multilingual-cased',output_hidden_states=True)
-        #self.bert = XLMRobertaModel.from_pretrained('xlm-roberta-base',output_hidden_states=True)
+        if model == 'mbert':
+            self.bert = BertModel.from_pretrained('bert-base-multilingual-cased',output_hidden_states=True)
+        elif model == 'xlmr':
+            self.bert = XLMRobertaModel.from_pretrained('xlm-roberta-base',output_hidden_states=True)
+        elif model == 'muril':
+            self.bert = AutoModel.from_pretrained("google/muril-large-cased", output_hidden_states=True)   
+        else:
+            print("Choose from available models !!")
+            exit(0)
 
-        # Freeze all layers except the top 2
-        for param in self.xlm_roberta.parameters():
+        # Freeze all layers
+        unfreeze = args.unfreeze
+        for param in self.bert.parameters():
             param.requires_grad = False
 
-        # Unfreeze the parameters of the top 2 layers
-        for param in self.xlm_roberta.encoder.layer[-2:].parameters():
+        # Unfreeze the parameters of the top few layers
+        for param in self.bert.encoder.layer[-unfreeze:].parameters():
             param.requires_grad = True
 
         # Task-specific layers for Task 1
@@ -258,14 +425,14 @@ class SharedCrossTaskModel(nn.Module):
         combined_output_task3 = self.gating_modules_task3(tuple([hidden_states[-1], current_output3]))
 
 
-        pooled_output_task1= combined_output_task1[:,0,:]
+        pooled_output_task1= current_output1[:,0,:]
         pooled_output_task1=torch.squeeze(pooled_output_task1,dim=1)
 
-        pooled_output_task2= combined_output_task2[:,0,:]
+        pooled_output_task2= current_output2[:,0,:]
         pooled_output_task2=torch.squeeze(pooled_output_task2,dim=1)
 
 
-        pooled_output_task3= combined_output_task3[:,0,:]
+        pooled_output_task3= current_output3[:,0,:]
         pooled_output_task3=torch.squeeze(pooled_output_task3,dim=1)
         
 
@@ -305,15 +472,20 @@ class Gating(torch.nn.Module):
         return output
     
 
+model = args.model
+if model == 'mbert':
+    tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
+elif model == 'xlmr':
+    tokenizer = XLMRobertaTokenizer.from_pretrained('xlm-roberta-base')
+elif model == 'muril':
+    tokenizer = AutoTokenizer.from_pretrained("google/muril-large-cased")
+else:
+    print("Choose from available models !!")
+    exit(0)
 
 # Instantiate the model
 model = SharedCrossTaskModel(num_classes_task1 = 2, num_classes_task2 = 2, num_classes_task3 = 2)
-
 model.to(device)
-
-tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
-#tokenizer = XLMRobertaTokenizer.from_pretrained('xlm-roberta-base')
-
 
 class CustomDataset(Dataset):
     def __init__(self, sentences, labels1, labels2, labels3, tokenizer, max_len):
@@ -383,22 +555,26 @@ test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False,
 def custom_joint_loss(logits_task1, logits_task2, logits_task3, labels_task1, labels_task2, labels_task3):
     # Calculate the loss for task 2, but only for rows where task1 == 999 and task3 == 999
     mask_task2 = (labels_task1 == 999) & (labels_task3 == 999)
-    loss_task2 = nn.CrossEntropyLoss()(logits_task2[mask_task2], labels_task2[mask_task2])
+    if logits_task2[mask_task2].numel() == 0:
+        loss_task2 = torch.tensor(0.0, device='cuda:0')
+    else:
+        loss_task2 = nn.CrossEntropyLoss(weight=train_task2_weightage)(logits_task2[mask_task2], labels_task2[mask_task2])
+    # print(loss_task2)
 
     # Calculate the loss for task 1, but only for rows where task2 == 999 and task3 == 999
     mask_task11 = (labels_task2 == 999)
     mask_task1 = (labels_task2 == 999) & (labels_task3 == 999)
-    if torch.sum(mask_task11) == 0:
-        loss_task1_2 = 0.0  # Set the loss to 0 when there are no rows with task2 == 999 
+    if logits_task1[mask_task1].numel() == 0:
+        loss_task1_2 = torch.tensor(0.0, device='cuda:0')
     else:
-        loss_task1_2 = nn.CrossEntropyLoss()(logits_task1[mask_task1], labels_task1[mask_task1])
+        loss_task1_2 = nn.CrossEntropyLoss(weight=train_task1_weightage)(logits_task1[mask_task1], labels_task1[mask_task1])
 
     # Calculate the loss for task 3, but only for rows where task1 == 999 and task2 == 999
     mask_task3 = (labels_task1 == 999) & (labels_task2 == 999)
-    if torch.sum(mask_task11) == 0:
-        loss_task3 = 0.0
+    if logits_task3[mask_task3].numel() == 0:
+        loss_task3 = torch.tensor(0.0, device='cuda:0')
     else:
-        loss_task3 = nn.CrossEntropyLoss()(logits_task3[mask_task3], labels_task3[mask_task3])
+        loss_task3 = nn.CrossEntropyLoss(weight=train_task3_weightage)(logits_task3[mask_task3], labels_task3[mask_task3])
 
     # Combine the losses
     joint_loss = loss_task2 + loss_task1_2 + loss_task3
@@ -406,7 +582,7 @@ def custom_joint_loss(logits_task1, logits_task2, logits_task3, labels_task1, la
     return joint_loss
 
 #criterion = nn.CrossEntropyLoss()
-
+# optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
 optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 scheduler = StepLR(optimizer, step_size=1, gamma=0.9)
 
@@ -419,7 +595,7 @@ counter = 0  # Counter to keep track of epochs without improvement
 
 
 #best_model_save_path
-tempdir = '/data1/aakash/Codemix/Aakash_02/.model/'
+tempdir = '/data1/debajyoti/code-mix-humor-sarcasm-detection/.model/'
 best_model_params_path = os.path.join(tempdir, f"mbert_Com.pt")
 
 
@@ -577,3 +753,11 @@ classification_report_output = classification_report(true_labels_task2, test_pre
 
 logging.info('Classification Report:')
 logging.info(classification_report_output)
+
+# Append the classification report to output.txt
+with open('/data1/debajyoti/code-mix-humor-sarcasm-detection/bashrun/mtl_output.txt', 'a') as f:
+    f.write(f"Task name: {task} \n")
+    f.write(f"Multiple tasks: humor,hate,sarcasm \n")
+    f.write(f"{args.model} \n")
+    f.write(classification_report_output)
+    f.write('\n')  # Add a newline for separation
