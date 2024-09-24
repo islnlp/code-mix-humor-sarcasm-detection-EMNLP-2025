@@ -1,6 +1,5 @@
 # Code-Mixed Humor & Sarcasm Detection
 
-Hello
 
 This repo contains the code for the paper: "Improving code-mixed humor and sarcasm detection through multi-tasking
 and native sample mixing". We strongly recommend that you run our codes on the same settings with Docker or Anaconda to ensure reproducibility. 
@@ -47,11 +46,40 @@ For Multi-Task model results:
 
 ```bash
 python3 Native_samples_results/{model}.py
+```
 
 Select the model from the following:
 
-<form> <label for="model">Choose a model:</label> <select id="model" name="model"> <option value="0mBERT_Codemix.py">0mBERT_Codemix.py</option> <option value="0XLMR_Codemix.py">0XLMR_Codemix.py</option> <option value="0NB_Codemix.py">0NB_Codemix.py</option> <option value="0RF_Codemix.py">0RF_Codemix.py</option> <option value="0SVM_Codemix.py">0SVM_Codemix.py</option> <option value="0mBERT_Combined_Cod+eng.py">0mBERT_Combined_(Cod+eng).py</option> <option value="0XLMR_Combined_Cod+eng.py">0XLMR_Combined_(Cod+eng).py</option> <option value="0NB_Combined_Cod+eng.py">0NB_Combined_(Cod+eng).py</option> <option value="0RF_Combined_Cod+eng.py">0RF_Combined_(Cod+eng).py</option> <option value="0SVM_Combined_Cod+eng.py">0SVM_Combined_(Cod+eng).py</option> <option value="0mBERT_Combined_Cod+hind.py">0mBERT_Combined_(Cod+hind).py</option> <option value="0XLMR_Combined_Cod+hind.py">0XLMR_Combined_(Cod+hind).py</option> <option value="0NB_Combined_Cod+hind.py">0NB_Combined_(Cod+hind).py</option> <option value="0RF_Combined_Cod+hind.py">0RF_Combined_(Cod+hind).py</option> <option value="0SVM_Combined_Cod+hind.py">0SVM_Combined_(Cod+hind).py</option> <option value="0mBERT_Combined_Cod+hind+eng.py">0mBERT_Combined_(Cod+hind+eng).py</option> <option value="0XLMR_Combined_Cod+hind+eng.py">0XLMR_Combined_(Cod+hind+eng).py</option> <option value="0NB_Combined_Cod+hind+eng.py">0NB_Combined_(Cod+hind+eng).py</option> <option value="0RF_Combined_Cod+hind+eng.py">0RF_Combined_(Cod+hind+eng).py</option> <option value="0SVM_Combined_Cod+hind+eng.py">0SVM_Combined_(Cod+hind+eng).py</option> </select> </form> 
-```
+### Model Selection
+
+| Category                    | Model Names                       |
+|-----------------------------|-----------------------------------|
+| **Code-Mixed Only Models**  | 0mBERT_Codemix.py                 |
+|                             | 0xLMR_Codemix.py                  |
+|                             | 0NB_Codemix.py                    |
+|                             | 0RF_Codemix.py                    |
+|                             | 0SVM_Codemix.py                   |
+| **Combined Models (Cod+eng)** | 0mBERT_Combined_(Cod+eng)         |
+|                             | 0xLMR_Combined_(Cod+eng)          |
+|                             | 0NB_Combined_(Cod+eng)            |
+|                             | 0RF_Combined_(Cod+eng)            |
+|                             | 0SVM_Combined_(Cod+eng)           |
+| **Combined Models (Cod+hind)** | 0mBERT_Combined_(Cod+hind)       |
+|                             | 0xLMR_Combined_(Cod+hind)         |
+|                             | 0NB_Combined_(Cod+hind)           |
+|                             | 0RF_Combined_(Cod+hind)           |
+|                             | 0SVM_Combined_(Cod+hind)          |
+| **Combined Models (Cod+hind+eng)** | 0mBERT_Combined_(Cod+hind+eng) |
+|                             | 0xLMR_Combined_(Cod+hind+eng)     |
+|                             | 0NB_Combined_(Cod+hind+eng)       |
+|                             | 0RF_Combined_(Cod+hind+eng)       |
+|                             | 0SVM_Combined_(Cod+hind+eng)      |
+
+
+
+=======
+{0mBERT_Codemix.py, <br> 0XLMR_Codemix.py, <br> 0NB_Codemix.py, <br> 0RF_Codemix.py, <br> 0SVM_Codemix.py, <br> 0mBERT_Combined_(Cod+eng), <br> 0XLMR_Combined_(Cod+eng), <br> 0NB_Combined_(Cod+eng), <br> 0RF_Combined_(Cod+eng), <br> 0SVM_Combined_(Cod+eng), <br> 0mBERT_Combined_(Cod+hind), <br> 0XLMR_Combined_(Cod+hind), <br> 0NB_Combined_(Cod+hind), <br> 0RF_Combined_(Cod+hind), <br> 0SVM_Combined_(Cod+hind), <br> 0mBERT_Combined_(Cod+hind+eng), <br> 0XLMR_Combined_(Cod+hind+eng), <br> 0NB_Combined_(Cod+hind+eng), <br> 0RF_Combined_(Cod+hind+eng), <br> 0SVM_Combined_(Cod+hind+eng)}
+>>>>>>> parent of 4797c34 (Update README.md)
 
 For Multi-Task model results:
 
