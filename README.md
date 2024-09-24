@@ -1,5 +1,8 @@
-# Code-Mixed Humor & Sarcasm Detection
 
+<h1 align="center">Code-Mixed Humor & Sarcasm Detection</h1>
+<p align="center">GPU optimized techniques for training transformer models at-scale</p>
+
+---
 
 This repo contains the code for the paper: "Improving code-mixed humor and sarcasm detection through multi-tasking
 and native sample mixing". We strongly recommend that you run our codes on the same settings with Docker or Anaconda to ensure reproducibility. 
