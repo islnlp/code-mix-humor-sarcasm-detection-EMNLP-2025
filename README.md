@@ -77,10 +77,6 @@ Select the model from the following:
 
 
 
-=======
-{0mBERT_Codemix.py, <br> 0XLMR_Codemix.py, <br> 0NB_Codemix.py, <br> 0RF_Codemix.py, <br> 0SVM_Codemix.py, <br> 0mBERT_Combined_(Cod+eng), <br> 0XLMR_Combined_(Cod+eng), <br> 0NB_Combined_(Cod+eng), <br> 0RF_Combined_(Cod+eng), <br> 0SVM_Combined_(Cod+eng), <br> 0mBERT_Combined_(Cod+hind), <br> 0XLMR_Combined_(Cod+hind), <br> 0NB_Combined_(Cod+hind), <br> 0RF_Combined_(Cod+hind), <br> 0SVM_Combined_(Cod+hind), <br> 0mBERT_Combined_(Cod+hind+eng), <br> 0XLMR_Combined_(Cod+hind+eng), <br> 0NB_Combined_(Cod+hind+eng), <br> 0RF_Combined_(Cod+hind+eng), <br> 0SVM_Combined_(Cod+hind+eng)}
->>>>>>> parent of 4797c34 (Update README.md)
-
 For Multi-Task model results:
 
 ```
