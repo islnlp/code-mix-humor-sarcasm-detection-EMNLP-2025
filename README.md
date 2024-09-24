@@ -1,6 +1,17 @@
 
 <h1 align="center">Code-Mixed Humor & Sarcasm Detection</h1>
-<!-- <p align="center">GPU optimized techniques for training transformer models at-scale</p> -->
+
+<p align="center">
+  <!-- PyTorch Badge -->
+  <a href="https://pytorch.org">
+    <img src="https://img.shields.io/badge/PyTorch-Framework-orange?logo=pytorch">
+  </a>
+  
+  <!-- Hugging Face Badge -->
+  <a href="https://huggingface.co">
+    <img src="https://img.shields.io/badge/Hugging%20Face-Transformers-yellow?logo=huggingface">
+  </a>
+</p>
 
 ---
 
