@@ -45,10 +45,11 @@ For Multi-Task model results:
 
 ```
 python3 Native_samples_results/{model}.py
-```
+
 Select the model from the following:
 
 <form> <label for="model">Choose a model:</label> <select id="model" name="model"> <option value="0mBERT_Codemix.py">0mBERT_Codemix.py</option> <option value="0XLMR_Codemix.py">0XLMR_Codemix.py</option> <option value="0NB_Codemix.py">0NB_Codemix.py</option> <option value="0RF_Codemix.py">0RF_Codemix.py</option> <option value="0SVM_Codemix.py">0SVM_Codemix.py</option> <option value="0mBERT_Combined_Cod+eng.py">0mBERT_Combined_(Cod+eng).py</option> <option value="0XLMR_Combined_Cod+eng.py">0XLMR_Combined_(Cod+eng).py</option> <option value="0NB_Combined_Cod+eng.py">0NB_Combined_(Cod+eng).py</option> <option value="0RF_Combined_Cod+eng.py">0RF_Combined_(Cod+eng).py</option> <option value="0SVM_Combined_Cod+eng.py">0SVM_Combined_(Cod+eng).py</option> <option value="0mBERT_Combined_Cod+hind.py">0mBERT_Combined_(Cod+hind).py</option> <option value="0XLMR_Combined_Cod+hind.py">0XLMR_Combined_(Cod+hind).py</option> <option value="0NB_Combined_Cod+hind.py">0NB_Combined_(Cod+hind).py</option> <option value="0RF_Combined_Cod+hind.py">0RF_Combined_(Cod+hind).py</option> <option value="0SVM_Combined_Cod+hind.py">0SVM_Combined_(Cod+hind).py</option> <option value="0mBERT_Combined_Cod+hind+eng.py">0mBERT_Combined_(Cod+hind+eng).py</option> <option value="0XLMR_Combined_Cod+hind+eng.py">0XLMR_Combined_(Cod+hind+eng).py</option> <option value="0NB_Combined_Cod+hind+eng.py">0NB_Combined_(Cod+hind+eng).py</option> <option value="0RF_Combined_Cod+hind+eng.py">0RF_Combined_(Cod+hind+eng).py</option> <option value="0SVM_Combined_Cod+hind+eng.py">0SVM_Combined_(Cod+hind+eng).py</option> </select> </form> 
+```
 
 For Multi-Task model results:
 
