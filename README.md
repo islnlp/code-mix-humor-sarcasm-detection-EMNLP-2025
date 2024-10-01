@@ -1,8 +1,8 @@
 
-<h1 align="center">Code-Mixed Humor & Sarcasm Detection</h1>
-
-![Logo](./humor_sarcasm.webp)
-
+<h1 align="center">
+  <img src="./humor_sarcasm.webp" alt="Logo" width="100" align="left">
+  Code-Mixed Humor & Sarcasm Detection
+</h1>
 
 <p align="center">
   <!-- PyTorch Badge -->
