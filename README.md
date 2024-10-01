@@ -1,7 +1,7 @@
 
 <h1 align="center">Code-Mixed Humor & Sarcasm Detection</h1>
 
-<img src="./humor_sarcasm.webp" alt="humor sarcasm logo" style="margin-top:50px"></img>
+![Logo](./humor_sarcasm.webp)
 
 
 <p align="center">
