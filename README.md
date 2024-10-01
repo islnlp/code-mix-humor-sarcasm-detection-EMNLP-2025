@@ -1,7 +1,7 @@
 
 <h1 align="center">Code-Mixed Humor & Sarcasm Detection</h1>
 
-<img src="islnlp/code-mix-humor-sarcasm-detection/humor_sarcasm.webp" alt="Streamlit logo" style="margin-top:50px"></img>
+<img src="./humor_sarcasm.webp" alt="humor sarcasm logo" style="margin-top:50px"></img>
 
 
 <p align="center">
