@@ -1,6 +1,7 @@
 
 <h1 align="center">
-  <img src="./humor_sarcasm.webp" alt="Logo" width="60" align="left">
+  <img src="./humor_sarcasm.webp" alt="Logo" width="50" align="left">
+  <img src="./humor_sarcasm.webp" alt="Logo" width="50" align="right">
   Code-Mixed Humor & Sarcasm Detection
 </h1>
 
