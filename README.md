@@ -70,7 +70,7 @@ Select the model from the following:
 
 ### Model Selection
 
-| Category                    | File Names                        |
+| Category                    | model                        |
 |-----------------------------|-----------------------------------|
 | **Code-mixed only models**  | 0NB_Codemix	                  |
 |                             | 0RF_Codemix	                  |
