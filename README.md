@@ -38,7 +38,7 @@ Pandas, Numpy <br>
    ```bash
    pip install -r requirements.txt
    ```
-3. Download and prepare the datasets. (Instructions can be found in the data/README.md file)
+3. Download and prepare the datasets.
 4. Train and evaluate models using the provided scripts in this directory.
 
 ### Dataset
